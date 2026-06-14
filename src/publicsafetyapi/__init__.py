@@ -13,20 +13,19 @@ Usage:
     stations = client.stations.nearby(
         address="12865 Main St, Apple Valley, CA",
         type="fire",
-        radius_miles=10
+        radius_miles=10,
     )
     print(stations[0].name, stations[0].distance_miles)
 
-    # Which police department covers this address?
-    result = client.jurisdiction(
+    # Which police department has jurisdiction?
+    j = client.jurisdiction(
         address="12865 Main St, Apple Valley, CA",
-        type="police"
+        type="police",
     )
-    print(result.likely_agencies[0].name)  # "Apple Valley Police Department"
+    print(j.likely_agencies[0].name)
 
     # Look up a specific station
     station = client.stations.get("police-hifld-987654")
-    print(station.phone)
 
 Async:
     import asyncio
@@ -42,9 +41,53 @@ Docs:    https://publicsafetyapi.dev/docs
 GitHub:  https://github.com/public-safety-api/publicsafetyapi-python
 """
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
 
-# Full implementation coming in v0.2.0 — launching with publicsafetyapi.dev
-# Sign up for early access at https://publicsafetyapi.dev
+from ._async_client import AsyncPublicSafetyAPI
+from ._client import PublicSafetyAPI
+from ._exceptions import (
+    AuthenticationError,
+    InvalidParamsError,
+    NotFoundError,
+    PublicSafetyAPIError,
+    QuotaExceededError,
+    RateLimitError,
+)
+from ._models import (
+    Address,
+    AgencySummary,
+    GeoPoint,
+    Jurisdiction,
+    ResponseMeta,
+    ResponseSource,
+    StateFacilities,
+    StateHospitals,
+    StateListItem,
+    StateSummary,
+    Station,
+)
 
-__all__ = ["__version__"]
+__all__ = [
+    "__version__",
+    "PublicSafetyAPI",
+    "AsyncPublicSafetyAPI",
+    # Models
+    "Station",
+    "Address",
+    "GeoPoint",
+    "AgencySummary",
+    "Jurisdiction",
+    "StateFacilities",
+    "StateHospitals",
+    "StateSummary",
+    "StateListItem",
+    "ResponseMeta",
+    "ResponseSource",
+    # Exceptions
+    "PublicSafetyAPIError",
+    "AuthenticationError",
+    "QuotaExceededError",
+    "NotFoundError",
+    "RateLimitError",
+    "InvalidParamsError",
+]
