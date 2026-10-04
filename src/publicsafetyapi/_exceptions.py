@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 class PublicSafetyAPIError(Exception):
     """Base exception for all publicsafetyapi errors."""
 
