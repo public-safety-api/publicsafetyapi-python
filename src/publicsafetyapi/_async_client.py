@@ -6,7 +6,7 @@ import httpx
 
 from . import __version__
 from ._client import EntityType, _types_csv
-from ._http import _raise_for_error
+from ._http import _raise_for_error, _safe_id
 from ._models import Jurisdiction, Station, StateListItem, StateSummary
 
 BASE_URL = "https://api.publicsafetyapi.dev"
@@ -45,7 +45,7 @@ class _AsyncStationsResource:
         return [Station._from_dict(s) for s in resp.json()["data"]]
 
     async def get(self, station_id: str) -> Station:
-        resp = await self._http.get(f"/v1/stations/{station_id}")
+        resp = await self._http.get(f"/v1/stations/{_safe_id(station_id, 'station_id')}")
         _raise_for_error(resp)
         return Station._from_dict(resp.json()["data"])
 
@@ -84,7 +84,7 @@ class _AsyncStatesResource:
         return [StateListItem._from_dict(s) for s in resp.json()["data"]]
 
     async def summary(self, code: str) -> StateSummary:
-        resp = await self._http.get(f"/v1/states/{code.upper()}/summary")
+        resp = await self._http.get(f"/v1/states/{_safe_id(code, 'code').upper()}/summary")
         _raise_for_error(resp)
         return StateSummary._from_dict(resp.json()["data"])
 
