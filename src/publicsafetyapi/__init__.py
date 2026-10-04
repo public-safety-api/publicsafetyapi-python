@@ -41,7 +41,7 @@ Docs:    https://publicsafetyapi.dev/docs
 GitHub:  https://github.com/public-safety-api/publicsafetyapi-python
 """
 
-__version__ = "0.2.0"
+__version__ = "0.2.1"
 
 from ._async_client import AsyncPublicSafetyAPI
 from ._client import PublicSafetyAPI
